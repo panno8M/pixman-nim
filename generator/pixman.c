@@ -1,0 +1,1 @@
+struct pixman_image {};
