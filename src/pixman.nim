@@ -254,264 +254,248 @@ const
   maxFixed4816* = (cast[Fixed4816T](0x7FFFFFFF))
   minFixed4816* = (-(cast[Fixed4816T](1) shl 31))
 discard "forward decl of pixman_box16"
-proc transformInitIdentity*(matrix: ptr Transform) {.
+proc initIdentity*(matrix: ptr Transform) {.
     importc: "pixman_transform_init_identity", dynlib: "libpixman-1.so".}
-proc transformPoint3d*(transform: ptr Transform; vector: ptr Vector): BoolT {.
+proc point3d*(transform: ptr Transform; vector: ptr Vector): BoolT {.
     importc: "pixman_transform_point_3d", dynlib: "libpixman-1.so".}
-proc transformPoint*(transform: ptr Transform; vector: ptr Vector): BoolT {.
+proc point*(transform: ptr Transform; vector: ptr Vector): BoolT {.
     importc: "pixman_transform_point", dynlib: "libpixman-1.so".}
-proc transformMultiply*(dst: ptr Transform; l: ptr Transform; r: ptr Transform): BoolT {.
+proc multiply*(dst: ptr Transform; l: ptr Transform; r: ptr Transform): BoolT {.
     importc: "pixman_transform_multiply", dynlib: "libpixman-1.so".}
-proc transformInitScale*(t: ptr Transform; sx: FixedT; sy: FixedT) {.
+proc initScale*(t: ptr Transform; sx: FixedT; sy: FixedT) {.
     importc: "pixman_transform_init_scale", dynlib: "libpixman-1.so".}
-proc transformScale*(forward: ptr Transform; reverse: ptr Transform; sx: FixedT;
-                     sy: FixedT): BoolT {.importc: "pixman_transform_scale",
-    dynlib: "libpixman-1.so".}
-proc transformInitRotate*(t: ptr Transform; cos: FixedT; sin: FixedT) {.
+proc scale*(forward: ptr Transform; reverse: ptr Transform; sx: FixedT;
+            sy: FixedT): BoolT {.importc: "pixman_transform_scale",
+                                 dynlib: "libpixman-1.so".}
+proc initRotate*(t: ptr Transform; cos: FixedT; sin: FixedT) {.
     importc: "pixman_transform_init_rotate", dynlib: "libpixman-1.so".}
-proc transformRotate*(forward: ptr Transform; reverse: ptr Transform; c: FixedT;
-                      s: FixedT): BoolT {.importc: "pixman_transform_rotate",
-    dynlib: "libpixman-1.so".}
-proc transformInitTranslate*(t: ptr Transform; tx: FixedT; ty: FixedT) {.
+proc rotate*(forward: ptr Transform; reverse: ptr Transform; c: FixedT;
+             s: FixedT): BoolT {.importc: "pixman_transform_rotate",
+                                 dynlib: "libpixman-1.so".}
+proc initTranslate*(t: ptr Transform; tx: FixedT; ty: FixedT) {.
     importc: "pixman_transform_init_translate", dynlib: "libpixman-1.so".}
-proc transformTranslate*(forward: ptr Transform; reverse: ptr Transform;
-                         tx: FixedT; ty: FixedT): BoolT {.
-    importc: "pixman_transform_translate", dynlib: "libpixman-1.so".}
-proc transformBounds*(matrix: ptr Transform; b: ptr Box16): BoolT {.
+proc translate*(forward: ptr Transform; reverse: ptr Transform; tx: FixedT;
+                ty: FixedT): BoolT {.importc: "pixman_transform_translate",
+                                     dynlib: "libpixman-1.so".}
+proc bounds*(matrix: ptr Transform; b: ptr Box16): BoolT {.
     importc: "pixman_transform_bounds", dynlib: "libpixman-1.so".}
-proc transformInvert*(dst: ptr Transform; src: ptr Transform): BoolT {.
+proc invert*(dst: ptr Transform; src: ptr Transform): BoolT {.
     importc: "pixman_transform_invert", dynlib: "libpixman-1.so".}
-proc transformIsIdentity*(t: ptr Transform): BoolT {.
+proc isIdentity*(t: ptr Transform): BoolT {.
     importc: "pixman_transform_is_identity", dynlib: "libpixman-1.so".}
-proc transformIsScale*(t: ptr Transform): BoolT {.
-    importc: "pixman_transform_is_scale", dynlib: "libpixman-1.so".}
-proc transformIsIntTranslate*(t: ptr Transform): BoolT {.
+proc isScale*(t: ptr Transform): BoolT {.importc: "pixman_transform_is_scale",
+    dynlib: "libpixman-1.so".}
+proc isIntTranslate*(t: ptr Transform): BoolT {.
     importc: "pixman_transform_is_int_translate", dynlib: "libpixman-1.so".}
-proc transformIsInverse*(a: ptr Transform; b: ptr Transform): BoolT {.
+proc isInverse*(a: ptr Transform; b: ptr Transform): BoolT {.
     importc: "pixman_transform_is_inverse", dynlib: "libpixman-1.so".}
-proc transformFromPixmanFTransform*(t: ptr Transform; ft: ptr FTransform): BoolT {.
+proc transformFromFTransform*(t: ptr Transform; ft: ptr FTransform): BoolT {.
     importc: "pixman_transform_from_pixman_f_transform",
     dynlib: "libpixman-1.so".}
-proc fTransformFromPixmanTransform*(ft: ptr FTransform; t: ptr Transform) {.
+proc fTransformFromTransform*(ft: ptr FTransform; t: ptr Transform) {.
     importc: "pixman_f_transform_from_pixman_transform",
     dynlib: "libpixman-1.so".}
-proc fTransformInvert*(dst: ptr FTransform; src: ptr FTransform): BoolT {.
+proc invert*(dst: ptr FTransform; src: ptr FTransform): BoolT {.
     importc: "pixman_f_transform_invert", dynlib: "libpixman-1.so".}
-proc fTransformPoint*(t: ptr FTransform; v: ptr FVector): BoolT {.
+proc point*(t: ptr FTransform; v: ptr FVector): BoolT {.
     importc: "pixman_f_transform_point", dynlib: "libpixman-1.so".}
-proc fTransformPoint3d*(t: ptr FTransform; v: ptr FVector) {.
+proc point3d*(t: ptr FTransform; v: ptr FVector) {.
     importc: "pixman_f_transform_point_3d", dynlib: "libpixman-1.so".}
-proc fTransformMultiply*(dst: ptr FTransform; l: ptr FTransform;
-                         r: ptr FTransform) {.
+proc multiply*(dst: ptr FTransform; l: ptr FTransform; r: ptr FTransform) {.
     importc: "pixman_f_transform_multiply", dynlib: "libpixman-1.so".}
-proc fTransformInitScale*(t: ptr FTransform; sx: cdouble; sy: cdouble) {.
+proc initScale*(t: ptr FTransform; sx: cdouble; sy: cdouble) {.
     importc: "pixman_f_transform_init_scale", dynlib: "libpixman-1.so".}
-proc fTransformScale*(forward: ptr FTransform; reverse: ptr FTransform;
-                      sx: cdouble; sy: cdouble): BoolT {.
-    importc: "pixman_f_transform_scale", dynlib: "libpixman-1.so".}
-proc fTransformInitRotate*(t: ptr FTransform; cos: cdouble; sin: cdouble) {.
+proc scale*(forward: ptr FTransform; reverse: ptr FTransform; sx: cdouble;
+            sy: cdouble): BoolT {.importc: "pixman_f_transform_scale",
+                                  dynlib: "libpixman-1.so".}
+proc initRotate*(t: ptr FTransform; cos: cdouble; sin: cdouble) {.
     importc: "pixman_f_transform_init_rotate", dynlib: "libpixman-1.so".}
-proc fTransformRotate*(forward: ptr FTransform; reverse: ptr FTransform;
-                       c: cdouble; s: cdouble): BoolT {.
-    importc: "pixman_f_transform_rotate", dynlib: "libpixman-1.so".}
-proc fTransformInitTranslate*(t: ptr FTransform; tx: cdouble; ty: cdouble) {.
+proc rotate*(forward: ptr FTransform; reverse: ptr FTransform; c: cdouble;
+             s: cdouble): BoolT {.importc: "pixman_f_transform_rotate",
+                                  dynlib: "libpixman-1.so".}
+proc initTranslate*(t: ptr FTransform; tx: cdouble; ty: cdouble) {.
     importc: "pixman_f_transform_init_translate", dynlib: "libpixman-1.so".}
-proc fTransformTranslate*(forward: ptr FTransform; reverse: ptr FTransform;
-                          tx: cdouble; ty: cdouble): BoolT {.
-    importc: "pixman_f_transform_translate", dynlib: "libpixman-1.so".}
-proc fTransformBounds*(t: ptr FTransform; b: ptr Box16): BoolT {.
-    importc: "pixman_f_transform_bounds", dynlib: "libpixman-1.so".}
-proc fTransformInitIdentity*(t: ptr FTransform) {.
-    importc: "pixman_f_transform_init_identity", dynlib: "libpixman-1.so".}
-proc regionSetStaticPointers*(empty_box: ptr Box16T;
-                              empty_data: ptr Region16DataT;
-                              broken_data: ptr Region16DataT) {.
-    importc: "pixman_region_set_static_pointers", dynlib: "libpixman-1.so".}
-proc regionInit*(region: ptr Region16T) {.importc: "pixman_region_init",
-    dynlib: "libpixman-1.so".}
-proc regionInitRect*(region: ptr Region16T; x: cint; y: cint; width: cuint;
-                     height: cuint) {.importc: "pixman_region_init_rect",
+proc translate*(forward: ptr FTransform; reverse: ptr FTransform; tx: cdouble;
+                ty: cdouble): BoolT {.importc: "pixman_f_transform_translate",
                                       dynlib: "libpixman-1.so".}
-proc regionInitRects*(region: ptr Region16T; boxes: ptr Box16T; count: cint): BoolT {.
-    importc: "pixman_region_init_rects", dynlib: "libpixman-1.so".}
-proc regionInitWithExtents*(region: ptr Region16T; extents: ptr Box16T) {.
-    importc: "pixman_region_init_with_extents", dynlib: "libpixman-1.so".}
-proc regionInitFromImage*(region: ptr Region16T; image: ptr ImageT) {.
-    importc: "pixman_region_init_from_image", dynlib: "libpixman-1.so".}
-proc regionFini*(region: ptr Region16T) {.importc: "pixman_region_fini",
-    dynlib: "libpixman-1.so".}
-proc regionTranslate*(region: ptr Region16T; x: cint; y: cint) {.
-    importc: "pixman_region_translate", dynlib: "libpixman-1.so".}
-proc regionCopy*(dest: ptr Region16T; source: ptr Region16T): BoolT {.
-    importc: "pixman_region_copy", dynlib: "libpixman-1.so".}
-proc regionIntersect*(new_reg: ptr Region16T; reg1: ptr Region16T;
-                      reg2: ptr Region16T): BoolT {.
-    importc: "pixman_region_intersect", dynlib: "libpixman-1.so".}
-proc regionUnion*(new_reg: ptr Region16T; reg1: ptr Region16T;
-                  reg2: ptr Region16T): BoolT {.importc: "pixman_region_union",
-    dynlib: "libpixman-1.so".}
-proc regionUnionRect*(dest: ptr Region16T; source: ptr Region16T; x: cint;
-                      y: cint; width: cuint; height: cuint): BoolT {.
-    importc: "pixman_region_union_rect", dynlib: "libpixman-1.so".}
-proc regionIntersectRect*(dest: ptr Region16T; source: ptr Region16T; x: cint;
-                          y: cint; width: cuint; height: cuint): BoolT {.
-    importc: "pixman_region_intersect_rect", dynlib: "libpixman-1.so".}
-proc regionSubtract*(reg_d: ptr Region16T; reg_m: ptr Region16T;
-                     reg_s: ptr Region16T): BoolT {.
-    importc: "pixman_region_subtract", dynlib: "libpixman-1.so".}
-proc regionInverse*(new_reg: ptr Region16T; reg1: ptr Region16T;
-                    inv_rect: ptr Box16T): BoolT {.
-    importc: "pixman_region_inverse", dynlib: "libpixman-1.so".}
-proc regionContainsPoint*(region: ptr Region16T; x: cint; y: cint;
-                          box: ptr Box16T): BoolT {.
-    importc: "pixman_region_contains_point", dynlib: "libpixman-1.so".}
-proc regionContainsRectangle*(region: ptr Region16T; prect: ptr Box16T): RegionOverlapT {.
-    importc: "pixman_region_contains_rectangle", dynlib: "libpixman-1.so".}
-proc regionEmpty*(region: ptr Region16T): BoolT {.
-    importc: "pixman_region_empty", dynlib: "libpixman-1.so".}
-proc regionNotEmpty*(region: ptr Region16T): BoolT {.
-    importc: "pixman_region_not_empty", dynlib: "libpixman-1.so".}
-proc regionExtents*(region: ptr Region16T): ptr Box16T {.
-    importc: "pixman_region_extents", dynlib: "libpixman-1.so".}
-proc regionNRects*(region: ptr Region16T): cint {.
-    importc: "pixman_region_n_rects", dynlib: "libpixman-1.so".}
-proc regionRectangles*(region: ptr Region16T; n_rects: ptr cint): ptr Box16T {.
-    importc: "pixman_region_rectangles", dynlib: "libpixman-1.so".}
-proc regionEqual*(region1: ptr Region16T; region2: ptr Region16T): BoolT {.
-    importc: "pixman_region_equal", dynlib: "libpixman-1.so".}
-proc regionSelfcheck*(region: ptr Region16T): BoolT {.
-    importc: "pixman_region_selfcheck", dynlib: "libpixman-1.so".}
-proc regionReset*(region: ptr Region16T; box: ptr Box16T) {.
-    importc: "pixman_region_reset", dynlib: "libpixman-1.so".}
-proc regionClear*(region: ptr Region16T) {.importc: "pixman_region_clear",
-    dynlib: "libpixman-1.so".}
-proc region32Init*(region: ptr Region32T) {.importc: "pixman_region32_init",
-    dynlib: "libpixman-1.so".}
-proc region32InitRect*(region: ptr Region32T; x: cint; y: cint; width: cuint;
-                       height: cuint) {.importc: "pixman_region32_init_rect",
+proc bounds*(t: ptr FTransform; b: ptr Box16): BoolT {.
+    importc: "pixman_f_transform_bounds", dynlib: "libpixman-1.so".}
+proc initIdentity*(t: ptr FTransform) {.importc: "pixman_f_transform_init_identity",
                                         dynlib: "libpixman-1.so".}
-proc region32InitRects*(region: ptr Region32T; boxes: ptr Box32T; count: cint): BoolT {.
+proc setStaticPointers*(empty_box: ptr Box16T; empty_data: ptr Region16DataT;
+                        broken_data: ptr Region16DataT) {.
+    importc: "pixman_region_set_static_pointers", dynlib: "libpixman-1.so".}
+proc init*(region: ptr Region16T) {.importc: "pixman_region_init",
+                                    dynlib: "libpixman-1.so".}
+proc initRect*(region: ptr Region16T; x: cint; y: cint; width: cuint;
+               height: cuint) {.importc: "pixman_region_init_rect",
+                                dynlib: "libpixman-1.so".}
+proc initRects*(region: ptr Region16T; boxes: ptr Box16T; count: cint): BoolT {.
+    importc: "pixman_region_init_rects", dynlib: "libpixman-1.so".}
+proc initWithExtents*(region: ptr Region16T; extents: ptr Box16T) {.
+    importc: "pixman_region_init_with_extents", dynlib: "libpixman-1.so".}
+proc initFromImage*(region: ptr Region16T; image: ptr ImageT) {.
+    importc: "pixman_region_init_from_image", dynlib: "libpixman-1.so".}
+proc fini*(region: ptr Region16T) {.importc: "pixman_region_fini",
+                                    dynlib: "libpixman-1.so".}
+proc translate*(region: ptr Region16T; x: cint; y: cint) {.
+    importc: "pixman_region_translate", dynlib: "libpixman-1.so".}
+proc copy*(dest: ptr Region16T; source: ptr Region16T): BoolT {.
+    importc: "pixman_region_copy", dynlib: "libpixman-1.so".}
+proc intersect*(new_reg: ptr Region16T; reg1: ptr Region16T; reg2: ptr Region16T): BoolT {.
+    importc: "pixman_region_intersect", dynlib: "libpixman-1.so".}
+proc union*(new_reg: ptr Region16T; reg1: ptr Region16T; reg2: ptr Region16T): BoolT {.
+    importc: "pixman_region_union", dynlib: "libpixman-1.so".}
+proc unionRect*(dest: ptr Region16T; source: ptr Region16T; x: cint; y: cint;
+                width: cuint; height: cuint): BoolT {.
+    importc: "pixman_region_union_rect", dynlib: "libpixman-1.so".}
+proc intersectRect*(dest: ptr Region16T; source: ptr Region16T; x: cint;
+                    y: cint; width: cuint; height: cuint): BoolT {.
+    importc: "pixman_region_intersect_rect", dynlib: "libpixman-1.so".}
+proc subtract*(reg_d: ptr Region16T; reg_m: ptr Region16T; reg_s: ptr Region16T): BoolT {.
+    importc: "pixman_region_subtract", dynlib: "libpixman-1.so".}
+proc inverse*(new_reg: ptr Region16T; reg1: ptr Region16T; inv_rect: ptr Box16T): BoolT {.
+    importc: "pixman_region_inverse", dynlib: "libpixman-1.so".}
+proc containsPoint*(region: ptr Region16T; x: cint; y: cint; box: ptr Box16T): BoolT {.
+    importc: "pixman_region_contains_point", dynlib: "libpixman-1.so".}
+proc containsRectangle*(region: ptr Region16T; prect: ptr Box16T): RegionOverlapT {.
+    importc: "pixman_region_contains_rectangle", dynlib: "libpixman-1.so".}
+proc empty*(region: ptr Region16T): BoolT {.importc: "pixman_region_empty",
+    dynlib: "libpixman-1.so".}
+proc notEmpty*(region: ptr Region16T): BoolT {.
+    importc: "pixman_region_not_empty", dynlib: "libpixman-1.so".}
+proc extents*(region: ptr Region16T): ptr Box16T {.
+    importc: "pixman_region_extents", dynlib: "libpixman-1.so".}
+proc nRects*(region: ptr Region16T): cint {.importc: "pixman_region_n_rects",
+    dynlib: "libpixman-1.so".}
+proc rectangles*(region: ptr Region16T; n_rects: ptr cint): ptr Box16T {.
+    importc: "pixman_region_rectangles", dynlib: "libpixman-1.so".}
+proc equal*(region1: ptr Region16T; region2: ptr Region16T): BoolT {.
+    importc: "pixman_region_equal", dynlib: "libpixman-1.so".}
+proc selfcheck*(region: ptr Region16T): BoolT {.
+    importc: "pixman_region_selfcheck", dynlib: "libpixman-1.so".}
+proc reset*(region: ptr Region16T; box: ptr Box16T) {.
+    importc: "pixman_region_reset", dynlib: "libpixman-1.so".}
+proc clear*(region: ptr Region16T) {.importc: "pixman_region_clear",
+                                     dynlib: "libpixman-1.so".}
+proc init*(region: ptr Region32T) {.importc: "pixman_region32_init",
+                                    dynlib: "libpixman-1.so".}
+proc initRect*(region: ptr Region32T; x: cint; y: cint; width: cuint;
+               height: cuint) {.importc: "pixman_region32_init_rect",
+                                dynlib: "libpixman-1.so".}
+proc initRects*(region: ptr Region32T; boxes: ptr Box32T; count: cint): BoolT {.
     importc: "pixman_region32_init_rects", dynlib: "libpixman-1.so".}
-proc region32InitWithExtents*(region: ptr Region32T; extents: ptr Box32T) {.
+proc initWithExtents*(region: ptr Region32T; extents: ptr Box32T) {.
     importc: "pixman_region32_init_with_extents", dynlib: "libpixman-1.so".}
-proc region32InitFromImage*(region: ptr Region32T; image: ptr ImageT) {.
+proc initFromImage*(region: ptr Region32T; image: ptr ImageT) {.
     importc: "pixman_region32_init_from_image", dynlib: "libpixman-1.so".}
-proc region32Fini*(region: ptr Region32T) {.importc: "pixman_region32_fini",
-    dynlib: "libpixman-1.so".}
-proc region32Translate*(region: ptr Region32T; x: cint; y: cint) {.
+proc fini*(region: ptr Region32T) {.importc: "pixman_region32_fini",
+                                    dynlib: "libpixman-1.so".}
+proc translate*(region: ptr Region32T; x: cint; y: cint) {.
     importc: "pixman_region32_translate", dynlib: "libpixman-1.so".}
-proc region32Copy*(dest: ptr Region32T; source: ptr Region32T): BoolT {.
+proc copy*(dest: ptr Region32T; source: ptr Region32T): BoolT {.
     importc: "pixman_region32_copy", dynlib: "libpixman-1.so".}
-proc region32Intersect*(new_reg: ptr Region32T; reg1: ptr Region32T;
-                        reg2: ptr Region32T): BoolT {.
+proc intersect*(new_reg: ptr Region32T; reg1: ptr Region32T; reg2: ptr Region32T): BoolT {.
     importc: "pixman_region32_intersect", dynlib: "libpixman-1.so".}
-proc region32Union*(new_reg: ptr Region32T; reg1: ptr Region32T;
-                    reg2: ptr Region32T): BoolT {.
+proc union*(new_reg: ptr Region32T; reg1: ptr Region32T; reg2: ptr Region32T): BoolT {.
     importc: "pixman_region32_union", dynlib: "libpixman-1.so".}
-proc region32IntersectRect*(dest: ptr Region32T; source: ptr Region32T; x: cint;
-                            y: cint; width: cuint; height: cuint): BoolT {.
+proc intersectRect*(dest: ptr Region32T; source: ptr Region32T; x: cint;
+                    y: cint; width: cuint; height: cuint): BoolT {.
     importc: "pixman_region32_intersect_rect", dynlib: "libpixman-1.so".}
-proc region32UnionRect*(dest: ptr Region32T; source: ptr Region32T; x: cint;
-                        y: cint; width: cuint; height: cuint): BoolT {.
+proc unionRect*(dest: ptr Region32T; source: ptr Region32T; x: cint; y: cint;
+                width: cuint; height: cuint): BoolT {.
     importc: "pixman_region32_union_rect", dynlib: "libpixman-1.so".}
-proc region32Subtract*(reg_d: ptr Region32T; reg_m: ptr Region32T;
-                       reg_s: ptr Region32T): BoolT {.
+proc subtract*(reg_d: ptr Region32T; reg_m: ptr Region32T; reg_s: ptr Region32T): BoolT {.
     importc: "pixman_region32_subtract", dynlib: "libpixman-1.so".}
-proc region32Inverse*(new_reg: ptr Region32T; reg1: ptr Region32T;
-                      inv_rect: ptr Box32T): BoolT {.
+proc inverse*(new_reg: ptr Region32T; reg1: ptr Region32T; inv_rect: ptr Box32T): BoolT {.
     importc: "pixman_region32_inverse", dynlib: "libpixman-1.so".}
-proc region32ContainsPoint*(region: ptr Region32T; x: cint; y: cint;
-                            box: ptr Box32T): BoolT {.
+proc containsPoint*(region: ptr Region32T; x: cint; y: cint; box: ptr Box32T): BoolT {.
     importc: "pixman_region32_contains_point", dynlib: "libpixman-1.so".}
-proc region32ContainsRectangle*(region: ptr Region32T; prect: ptr Box32T): RegionOverlapT {.
+proc containsRectangle*(region: ptr Region32T; prect: ptr Box32T): RegionOverlapT {.
     importc: "pixman_region32_contains_rectangle", dynlib: "libpixman-1.so".}
-proc region32Empty*(region: ptr Region32T): BoolT {.
-    importc: "pixman_region32_empty", dynlib: "libpixman-1.so".}
-proc region32NotEmpty*(region: ptr Region32T): BoolT {.
+proc empty*(region: ptr Region32T): BoolT {.importc: "pixman_region32_empty",
+    dynlib: "libpixman-1.so".}
+proc notEmpty*(region: ptr Region32T): BoolT {.
     importc: "pixman_region32_not_empty", dynlib: "libpixman-1.so".}
-proc region32Extents*(region: ptr Region32T): ptr Box32T {.
+proc extents*(region: ptr Region32T): ptr Box32T {.
     importc: "pixman_region32_extents", dynlib: "libpixman-1.so".}
-proc region32NRects*(region: ptr Region32T): cint {.
-    importc: "pixman_region32_n_rects", dynlib: "libpixman-1.so".}
-proc region32Rectangles*(region: ptr Region32T; n_rects: ptr cint): ptr Box32T {.
+proc nRects*(region: ptr Region32T): cint {.importc: "pixman_region32_n_rects",
+    dynlib: "libpixman-1.so".}
+proc rectangles*(region: ptr Region32T; n_rects: ptr cint): ptr Box32T {.
     importc: "pixman_region32_rectangles", dynlib: "libpixman-1.so".}
-proc region32Equal*(region1: ptr Region32T; region2: ptr Region32T): BoolT {.
+proc equal*(region1: ptr Region32T; region2: ptr Region32T): BoolT {.
     importc: "pixman_region32_equal", dynlib: "libpixman-1.so".}
-proc region32Selfcheck*(region: ptr Region32T): BoolT {.
+proc selfcheck*(region: ptr Region32T): BoolT {.
     importc: "pixman_region32_selfcheck", dynlib: "libpixman-1.so".}
-proc region32Reset*(region: ptr Region32T; box: ptr Box32T) {.
+proc reset*(region: ptr Region32T; box: ptr Box32T) {.
     importc: "pixman_region32_reset", dynlib: "libpixman-1.so".}
-proc region32Clear*(region: ptr Region32T) {.importc: "pixman_region32_clear",
-    dynlib: "libpixman-1.so".}
-proc region64fInit*(region: ptr Region64fT) {.importc: "pixman_region64f_init",
-    dynlib: "libpixman-1.so".}
-proc region64fInitRect*(region: ptr Region64fT; x: cint; y: cint; width: cuint;
-                        height: cuint) {.importc: "pixman_region64f_init_rect",
-    dynlib: "libpixman-1.so".}
-proc region64fInitRectf*(region: ptr Region64fT; x: cdouble; y: cdouble;
-                         width: cdouble; height: cdouble) {.
-    importc: "pixman_region64f_init_rectf", dynlib: "libpixman-1.so".}
-proc region64fInitRects*(region: ptr Region64fT; boxes: ptr Box64fT; count: cint): BoolT {.
+proc clear*(region: ptr Region32T) {.importc: "pixman_region32_clear",
+                                     dynlib: "libpixman-1.so".}
+proc init*(region: ptr Region64fT) {.importc: "pixman_region64f_init",
+                                     dynlib: "libpixman-1.so".}
+proc initRect*(region: ptr Region64fT; x: cint; y: cint; width: cuint;
+               height: cuint) {.importc: "pixman_region64f_init_rect",
+                                dynlib: "libpixman-1.so".}
+proc initRectf*(region: ptr Region64fT; x: cdouble; y: cdouble; width: cdouble;
+                height: cdouble) {.importc: "pixman_region64f_init_rectf",
+                                   dynlib: "libpixman-1.so".}
+proc initRects*(region: ptr Region64fT; boxes: ptr Box64fT; count: cint): BoolT {.
     importc: "pixman_region64f_init_rects", dynlib: "libpixman-1.so".}
-proc region64fInitWithExtents*(region: ptr Region64fT; extents: ptr Box64fT) {.
+proc initWithExtents*(region: ptr Region64fT; extents: ptr Box64fT) {.
     importc: "pixman_region64f_init_with_extents", dynlib: "libpixman-1.so".}
-proc region64fInitFromImage*(region: ptr Region64fT; image: ptr ImageT) {.
+proc initFromImage*(region: ptr Region64fT; image: ptr ImageT) {.
     importc: "pixman_region64f_init_from_image", dynlib: "libpixman-1.so".}
-proc region64fFini*(region: ptr Region64fT) {.importc: "pixman_region64f_fini",
-    dynlib: "libpixman-1.so".}
-proc region64fTranslate*(region: ptr Region64fT; x: cint; y: cint) {.
+proc fini*(region: ptr Region64fT) {.importc: "pixman_region64f_fini",
+                                     dynlib: "libpixman-1.so".}
+proc translate*(region: ptr Region64fT; x: cint; y: cint) {.
     importc: "pixman_region64f_translate", dynlib: "libpixman-1.so".}
-proc region64fCopy*(dest: ptr Region64fT; source: ptr Region64fT): BoolT {.
+proc copy*(dest: ptr Region64fT; source: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_copy", dynlib: "libpixman-1.so".}
-proc region64fIntersect*(new_reg: ptr Region64fT; reg1: ptr Region64fT;
-                         reg2: ptr Region64fT): BoolT {.
+proc intersect*(new_reg: ptr Region64fT; reg1: ptr Region64fT;
+                reg2: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_intersect", dynlib: "libpixman-1.so".}
-proc region64fUnion*(new_reg: ptr Region64fT; reg1: ptr Region64fT;
-                     reg2: ptr Region64fT): BoolT {.
+proc union*(new_reg: ptr Region64fT; reg1: ptr Region64fT; reg2: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_union", dynlib: "libpixman-1.so".}
-proc region64fIntersectRect*(dest: ptr Region64fT; source: ptr Region64fT;
-                             x: cint; y: cint; width: cuint; height: cuint): BoolT {.
+proc intersectRect*(dest: ptr Region64fT; source: ptr Region64fT; x: cint;
+                    y: cint; width: cuint; height: cuint): BoolT {.
     importc: "pixman_region64f_intersect_rect", dynlib: "libpixman-1.so".}
-proc region64fIntersectRectf*(dest: ptr Region64fT; source: ptr Region64fT;
-                              x: cdouble; y: cdouble; width: cdouble;
-                              height: cdouble): BoolT {.
+proc intersectRectf*(dest: ptr Region64fT; source: ptr Region64fT; x: cdouble;
+                     y: cdouble; width: cdouble; height: cdouble): BoolT {.
     importc: "pixman_region64f_intersect_rectf", dynlib: "libpixman-1.so".}
-proc region64fUnionRect*(dest: ptr Region64fT; source: ptr Region64fT; x: cint;
-                         y: cint; width: cuint; height: cuint): BoolT {.
+proc unionRect*(dest: ptr Region64fT; source: ptr Region64fT; x: cint; y: cint;
+                width: cuint; height: cuint): BoolT {.
     importc: "pixman_region64f_union_rect", dynlib: "libpixman-1.so".}
-proc region64fUnionRectf*(dest: ptr Region64fT; source: ptr Region64fT;
-                          x: cdouble; y: cdouble; width: cdouble;
-                          height: cdouble): BoolT {.
+proc unionRectf*(dest: ptr Region64fT; source: ptr Region64fT; x: cdouble;
+                 y: cdouble; width: cdouble; height: cdouble): BoolT {.
     importc: "pixman_region64f_union_rectf", dynlib: "libpixman-1.so".}
-proc region64fSubtract*(reg_d: ptr Region64fT; reg_m: ptr Region64fT;
-                        reg_s: ptr Region64fT): BoolT {.
+proc subtract*(reg_d: ptr Region64fT; reg_m: ptr Region64fT;
+               reg_s: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_subtract", dynlib: "libpixman-1.so".}
-proc region64fInverse*(new_reg: ptr Region64fT; reg1: ptr Region64fT;
-                       inv_rect: ptr Box64fT): BoolT {.
+proc inverse*(new_reg: ptr Region64fT; reg1: ptr Region64fT;
+              inv_rect: ptr Box64fT): BoolT {.
     importc: "pixman_region64f_inverse", dynlib: "libpixman-1.so".}
-proc region64fContainsPoint*(region: ptr Region64fT; x: cint; y: cint;
-                             box: ptr Box64fT): BoolT {.
+proc containsPoint*(region: ptr Region64fT; x: cint; y: cint; box: ptr Box64fT): BoolT {.
     importc: "pixman_region64f_contains_point", dynlib: "libpixman-1.so".}
-proc region64fContainsRectangle*(region: ptr Region64fT; prect: ptr Box64fT): RegionOverlapT {.
+proc containsRectangle*(region: ptr Region64fT; prect: ptr Box64fT): RegionOverlapT {.
     importc: "pixman_region64f_contains_rectangle", dynlib: "libpixman-1.so".}
-proc region64fEmpty*(region: ptr Region64fT): BoolT {.
-    importc: "pixman_region64f_empty", dynlib: "libpixman-1.so".}
-proc region64fNotEmpty*(region: ptr Region64fT): BoolT {.
+proc empty*(region: ptr Region64fT): BoolT {.importc: "pixman_region64f_empty",
+    dynlib: "libpixman-1.so".}
+proc notEmpty*(region: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_not_empty", dynlib: "libpixman-1.so".}
-proc region64fExtents*(region: ptr Region64fT): ptr Box64fT {.
+proc extents*(region: ptr Region64fT): ptr Box64fT {.
     importc: "pixman_region64f_extents", dynlib: "libpixman-1.so".}
-proc region64fNRects*(region: ptr Region64fT): cint {.
+proc nRects*(region: ptr Region64fT): cint {.
     importc: "pixman_region64f_n_rects", dynlib: "libpixman-1.so".}
-proc region64fRectangles*(region: ptr Region64fT; n_rects: ptr cint): ptr Box64fT {.
+proc rectangles*(region: ptr Region64fT; n_rects: ptr cint): ptr Box64fT {.
     importc: "pixman_region64f_rectangles", dynlib: "libpixman-1.so".}
-proc region64fEqual*(region1: ptr Region64fT; region2: ptr Region64fT): BoolT {.
+proc equal*(region1: ptr Region64fT; region2: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_equal", dynlib: "libpixman-1.so".}
-proc region64fSelfcheck*(region: ptr Region64fT): BoolT {.
+proc selfcheck*(region: ptr Region64fT): BoolT {.
     importc: "pixman_region64f_selfcheck", dynlib: "libpixman-1.so".}
-proc region64fReset*(region: ptr Region64fT; box: ptr Box64fT) {.
+proc reset*(region: ptr Region64fT; box: ptr Box64fT) {.
     importc: "pixman_region64f_reset", dynlib: "libpixman-1.so".}
-proc region64fClear*(region: ptr Region64fT) {.
-    importc: "pixman_region64f_clear", dynlib: "libpixman-1.so".}
+proc clear*(region: ptr Region64fT) {.importc: "pixman_region64f_clear",
+                                      dynlib: "libpixman-1.so".}
 proc blt*(src_bits: ptr uint32; dst_bits: ptr uint32; src_stride: cint;
           dst_stride: cint; src_bpp: cint; dst_bpp: cint; src_x: cint;
           src_y: cint; dest_x: cint; dest_y: cint; width: cint; height: cint): BoolT {.
@@ -522,81 +506,80 @@ proc fill*(bits: ptr uint32; stride: cint; bpp: cint; x: cint; y: cint;
 proc version*(): cint {.importc: "pixman_version", dynlib: "libpixman-1.so".}
 proc versionString*(): cstring {.importc: "pixman_version_string",
                                  dynlib: "libpixman-1.so".}
-proc formatSupportedDestination*(format: FormatCodeT): BoolT {.
+proc supportedDestination*(format: FormatCodeT): BoolT {.
     importc: "pixman_format_supported_destination", dynlib: "libpixman-1.so".}
-proc formatSupportedSource*(format: FormatCodeT): BoolT {.
+proc supportedSource*(format: FormatCodeT): BoolT {.
     importc: "pixman_format_supported_source", dynlib: "libpixman-1.so".}
-proc imageCreateSolidFill*(color: ptr ColorT): ptr ImageT {.
+proc createSolidFill*(color: ptr ColorT): ptr ImageT {.
     importc: "pixman_image_create_solid_fill", dynlib: "libpixman-1.so".}
-proc imageCreateLinearGradient*(p1: ptr PointFixedT; p2: ptr PointFixedT;
-                                stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
+proc createLinearGradient*(p1: ptr PointFixedT; p2: ptr PointFixedT;
+                           stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
     importc: "pixman_image_create_linear_gradient", dynlib: "libpixman-1.so".}
-proc imageCreateRadialGradient*(inner: ptr PointFixedT; outer: ptr PointFixedT;
-                                inner_radius: FixedT; outer_radius: FixedT;
-                                stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
+proc createRadialGradient*(inner: ptr PointFixedT; outer: ptr PointFixedT;
+                           inner_radius: FixedT; outer_radius: FixedT;
+                           stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
     importc: "pixman_image_create_radial_gradient", dynlib: "libpixman-1.so".}
-proc imageCreateConicalGradient*(center: ptr PointFixedT; angle: FixedT;
-                                 stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
+proc createConicalGradient*(center: ptr PointFixedT; angle: FixedT;
+                            stops: ptr GradientStopT; n_stops: cint): ptr ImageT {.
     importc: "pixman_image_create_conical_gradient", dynlib: "libpixman-1.so".}
-proc imageCreateBits*(format: FormatCodeT; width: cint; height: cint;
-                      bits: ptr uint32; rowstride_bytes: cint): ptr ImageT {.
+proc createBits*(format: FormatCodeT; width: cint; height: cint;
+                 bits: ptr uint32; rowstride_bytes: cint): ptr ImageT {.
     importc: "pixman_image_create_bits", dynlib: "libpixman-1.so".}
-proc imageCreateBitsNoClear*(format: FormatCodeT; width: cint; height: cint;
-                             bits: ptr uint32; rowstride_bytes: cint): ptr ImageT {.
+proc createBitsNoClear*(format: FormatCodeT; width: cint; height: cint;
+                        bits: ptr uint32; rowstride_bytes: cint): ptr ImageT {.
     importc: "pixman_image_create_bits_no_clear", dynlib: "libpixman-1.so".}
-proc imageRef*(image: ptr ImageT): ptr ImageT {.importc: "pixman_image_ref",
+proc `ref`*(image: ptr ImageT): ptr ImageT {.importc: "pixman_image_ref",
     dynlib: "libpixman-1.so".}
-proc imageUnref*(image: ptr ImageT): BoolT {.importc: "pixman_image_unref",
-    dynlib: "libpixman-1.so".}
-proc imageSetDestroyFunction*(image: ptr ImageT; function: ImageDestroyFuncT;
-                              data: pointer) {.
+proc unref*(image: ptr ImageT): BoolT {.importc: "pixman_image_unref",
+                                        dynlib: "libpixman-1.so".}
+proc setDestroyFunction*(image: ptr ImageT; function: ImageDestroyFuncT;
+                         data: pointer) {.
     importc: "pixman_image_set_destroy_function", dynlib: "libpixman-1.so".}
-proc imageGetDestroyData*(image: ptr ImageT): pointer {.
+proc getDestroyData*(image: ptr ImageT): pointer {.
     importc: "pixman_image_get_destroy_data", dynlib: "libpixman-1.so".}
-proc imageSetClipRegion*(image: ptr ImageT; region: ptr Region16T): BoolT {.
+proc setClipRegion*(image: ptr ImageT; region: ptr Region16T): BoolT {.
     importc: "pixman_image_set_clip_region", dynlib: "libpixman-1.so".}
-proc imageSetClipRegion32*(image: ptr ImageT; region: ptr Region32T): BoolT {.
+proc setClipRegion32*(image: ptr ImageT; region: ptr Region32T): BoolT {.
     importc: "pixman_image_set_clip_region32", dynlib: "libpixman-1.so".}
-proc imageSetClipRegion64f*(image: ptr ImageT; region: ptr Region64fT): BoolT {.
+proc setClipRegion64f*(image: ptr ImageT; region: ptr Region64fT): BoolT {.
     importc: "pixman_image_set_clip_region64f", dynlib: "libpixman-1.so".}
-proc imageSetHasClientClip*(image: ptr ImageT; clien_clip: BoolT) {.
+proc setHasClientClip*(image: ptr ImageT; clien_clip: BoolT) {.
     importc: "pixman_image_set_has_client_clip", dynlib: "libpixman-1.so".}
-proc imageSetTransform*(image: ptr ImageT; transform: ptr TransformT): BoolT {.
+proc setTransform*(image: ptr ImageT; transform: ptr TransformT): BoolT {.
     importc: "pixman_image_set_transform", dynlib: "libpixman-1.so".}
-proc imageSetRepeat*(image: ptr ImageT; repeat: RepeatT) {.
+proc setRepeat*(image: ptr ImageT; repeat: RepeatT) {.
     importc: "pixman_image_set_repeat", dynlib: "libpixman-1.so".}
-proc imageSetDither*(image: ptr ImageT; dither: DitherT) {.
+proc setDither*(image: ptr ImageT; dither: DitherT) {.
     importc: "pixman_image_set_dither", dynlib: "libpixman-1.so".}
-proc imageSetDitherOffset*(image: ptr ImageT; offset_x: cint; offset_y: cint) {.
+proc setDitherOffset*(image: ptr ImageT; offset_x: cint; offset_y: cint) {.
     importc: "pixman_image_set_dither_offset", dynlib: "libpixman-1.so".}
-proc imageSetFilter*(image: ptr ImageT; filter: FilterT;
-                     filter_params: ptr FixedT; n_filter_params: cint): BoolT {.
+proc setFilter*(image: ptr ImageT; filter: FilterT; filter_params: ptr FixedT;
+                n_filter_params: cint): BoolT {.
     importc: "pixman_image_set_filter", dynlib: "libpixman-1.so".}
-proc imageSetSourceClipping*(image: ptr ImageT; source_clipping: BoolT) {.
+proc setSourceClipping*(image: ptr ImageT; source_clipping: BoolT) {.
     importc: "pixman_image_set_source_clipping", dynlib: "libpixman-1.so".}
-proc imageSetAlphaMap*(image: ptr ImageT; alpha_map: ptr ImageT; x: int16;
-                       y: int16) {.importc: "pixman_image_set_alpha_map",
-                                   dynlib: "libpixman-1.so".}
-proc imageSetComponentAlpha*(image: ptr ImageT; component_alpha: BoolT) {.
+proc setAlphaMap*(image: ptr ImageT; alpha_map: ptr ImageT; x: int16; y: int16) {.
+    importc: "pixman_image_set_alpha_map", dynlib: "libpixman-1.so".}
+proc setComponentAlpha*(image: ptr ImageT; component_alpha: BoolT) {.
     importc: "pixman_image_set_component_alpha", dynlib: "libpixman-1.so".}
-proc imageGetComponentAlpha*(image: ptr ImageT): BoolT {.
+proc getComponentAlpha*(image: ptr ImageT): BoolT {.
     importc: "pixman_image_get_component_alpha", dynlib: "libpixman-1.so".}
-proc imageSetAccessors*(image: ptr ImageT; read_func: ReadMemoryFuncT;
-                        write_func: WriteMemoryFuncT) {.
+proc setAccessors*(image: ptr ImageT; read_func: ReadMemoryFuncT;
+                   write_func: WriteMemoryFuncT) {.
     importc: "pixman_image_set_accessors", dynlib: "libpixman-1.so".}
-proc imageSetIndexed*(image: ptr ImageT; indexed: ptr IndexedT) {.
+proc setIndexed*(image: ptr ImageT; indexed: ptr IndexedT) {.
     importc: "pixman_image_set_indexed", dynlib: "libpixman-1.so".}
-proc imageGetData*(image: ptr ImageT): ptr uint32 {.
-    importc: "pixman_image_get_data", dynlib: "libpixman-1.so".}
-proc imageGetWidth*(image: ptr ImageT): cint {.
-    importc: "pixman_image_get_width", dynlib: "libpixman-1.so".}
-proc imageGetHeight*(image: ptr ImageT): cint {.
-    importc: "pixman_image_get_height", dynlib: "libpixman-1.so".}
-proc imageGetStride*(image: ptr ImageT): cint {.
-    importc: "pixman_image_get_stride", dynlib: "libpixman-1.so".}
-proc imageGetDepth*(image: ptr ImageT): cint {.
-    importc: "pixman_image_get_depth", dynlib: "libpixman-1.so".}
-proc imageGetFormat*(image: ptr ImageT): FormatCodeT {.
+proc getData*(image: ptr ImageT): ptr uint32 {.importc: "pixman_image_get_data",
+    dynlib: "libpixman-1.so".}
+proc getWidth*(image: ptr ImageT): cint {.importc: "pixman_image_get_width",
+    dynlib: "libpixman-1.so".}
+proc getHeight*(image: ptr ImageT): cint {.importc: "pixman_image_get_height",
+    dynlib: "libpixman-1.so".}
+proc getStride*(image: ptr ImageT): cint {.importc: "pixman_image_get_stride",
+    dynlib: "libpixman-1.so".}
+proc getDepth*(image: ptr ImageT): cint {.importc: "pixman_image_get_depth",
+    dynlib: "libpixman-1.so".}
+proc getFormat*(image: ptr ImageT): FormatCodeT {.
     importc: "pixman_image_get_format", dynlib: "libpixman-1.so".}
 proc filterCreateSeparableConvolution*(n_values: ptr cint; scale_x: FixedT;
                                        scale_y: FixedT; reconstruct_x: KernelT;
@@ -606,58 +589,52 @@ proc filterCreateSeparableConvolution*(n_values: ptr cint; scale_x: FixedT;
                                        subsample_bits_y: cint): ptr FixedT {.
     importc: "pixman_filter_create_separable_convolution",
     dynlib: "libpixman-1.so".}
-proc imageFillRectangles*(op: OpT; image: ptr ImageT; color: ptr ColorT;
-                          n_rects: cint; rects: ptr Rectangle16T): BoolT {.
+proc fillRectangles*(op: OpT; image: ptr ImageT; color: ptr ColorT;
+                     n_rects: cint; rects: ptr Rectangle16T): BoolT {.
     importc: "pixman_image_fill_rectangles", dynlib: "libpixman-1.so".}
-proc imageFillBoxes*(op: OpT; dest: ptr ImageT; color: ptr ColorT;
-                     n_boxes: cint; boxes: ptr Box32T): BoolT {.
-    importc: "pixman_image_fill_boxes", dynlib: "libpixman-1.so".}
+proc fillBoxes*(op: OpT; dest: ptr ImageT; color: ptr ColorT; n_boxes: cint;
+                boxes: ptr Box32T): BoolT {.importc: "pixman_image_fill_boxes",
+    dynlib: "libpixman-1.so".}
 proc computeCompositeRegion*(region: ptr Region16T; src_image: ptr ImageT;
                              mask_image: ptr ImageT; dest_image: ptr ImageT;
                              src_x: int16; src_y: int16; mask_x: int16;
                              mask_y: int16; dest_x: int16; dest_y: int16;
                              width: uint16; height: uint16): BoolT {.
     importc: "pixman_compute_composite_region", dynlib: "libpixman-1.so".}
-proc imageComposite*(op: OpT; src: ptr ImageT; mask: ptr ImageT;
-                     dest: ptr ImageT; src_x: int16; src_y: int16;
-                     mask_x: int16; mask_y: int16; dest_x: int16; dest_y: int16;
-                     width: uint16; height: uint16) {.
+proc composite*(op: OpT; src: ptr ImageT; mask: ptr ImageT; dest: ptr ImageT;
+                src_x: int16; src_y: int16; mask_x: int16; mask_y: int16;
+                dest_x: int16; dest_y: int16; width: uint16; height: uint16) {.
     importc: "pixman_image_composite", dynlib: "libpixman-1.so".}
-proc imageComposite32*(op: OpT; src: ptr ImageT; mask: ptr ImageT;
-                       dest: ptr ImageT; src_x: int32; src_y: int32;
-                       mask_x: int32; mask_y: int32; dest_x: int32;
-                       dest_y: int32; width: int32; height: int32) {.
+proc composite32*(op: OpT; src: ptr ImageT; mask: ptr ImageT; dest: ptr ImageT;
+                  src_x: int32; src_y: int32; mask_x: int32; mask_y: int32;
+                  dest_x: int32; dest_y: int32; width: int32; height: int32) {.
     importc: "pixman_image_composite32", dynlib: "libpixman-1.so".}
-proc imageComposite64f*(op: OpT; src: ptr ImageT; mask: ptr ImageT;
-                        dest: ptr ImageT; src_x: cdouble; src_y: cdouble;
-                        mask_x: cdouble; mask_y: cdouble; dest_x: cdouble;
-                        dest_y: cdouble; width: cdouble; height: cdouble) {.
+proc composite64f*(op: OpT; src: ptr ImageT; mask: ptr ImageT; dest: ptr ImageT;
+                   src_x: cdouble; src_y: cdouble; mask_x: cdouble;
+                   mask_y: cdouble; dest_x: cdouble; dest_y: cdouble;
+                   width: cdouble; height: cdouble) {.
     importc: "pixman_image_composite64f", dynlib: "libpixman-1.so".}
 proc disableOutOfBoundsWorkaround*() {.importc: "pixman_disable_out_of_bounds_workaround",
                                        dynlib: "libpixman-1.so".}
-proc glyphCacheCreate*(): ptr GlyphCacheT {.
+proc createGlyphCache*(): ptr GlyphCacheT {.
     importc: "pixman_glyph_cache_create", dynlib: "libpixman-1.so".}
-proc glyphCacheDestroy*(cache: ptr GlyphCacheT) {.
-    importc: "pixman_glyph_cache_destroy", dynlib: "libpixman-1.so".}
-proc glyphCacheFreeze*(cache: ptr GlyphCacheT) {.
-    importc: "pixman_glyph_cache_freeze", dynlib: "libpixman-1.so".}
-proc glyphCacheThaw*(cache: ptr GlyphCacheT) {.
-    importc: "pixman_glyph_cache_thaw", dynlib: "libpixman-1.so".}
-proc glyphCacheLookup*(cache: ptr GlyphCacheT; font_key: pointer;
-                       glyph_key: pointer): pointer {.
+proc destroy*(cache: ptr GlyphCacheT) {.importc: "pixman_glyph_cache_destroy",
+                                        dynlib: "libpixman-1.so".}
+proc freeze*(cache: ptr GlyphCacheT) {.importc: "pixman_glyph_cache_freeze",
+                                       dynlib: "libpixman-1.so".}
+proc thaw*(cache: ptr GlyphCacheT) {.importc: "pixman_glyph_cache_thaw",
+                                     dynlib: "libpixman-1.so".}
+proc lookup*(cache: ptr GlyphCacheT; font_key: pointer; glyph_key: pointer): pointer {.
     importc: "pixman_glyph_cache_lookup", dynlib: "libpixman-1.so".}
-proc glyphCacheInsert*(cache: ptr GlyphCacheT; font_key: pointer;
-                       glyph_key: pointer; origin_x: cint; origin_y: cint;
-                       glyph_image: ptr ImageT): pointer {.
+proc insert*(cache: ptr GlyphCacheT; font_key: pointer; glyph_key: pointer;
+             origin_x: cint; origin_y: cint; glyph_image: ptr ImageT): pointer {.
     importc: "pixman_glyph_cache_insert", dynlib: "libpixman-1.so".}
-proc glyphCacheRemove*(cache: ptr GlyphCacheT; font_key: pointer;
-                       glyph_key: pointer) {.
+proc remove*(cache: ptr GlyphCacheT; font_key: pointer; glyph_key: pointer) {.
     importc: "pixman_glyph_cache_remove", dynlib: "libpixman-1.so".}
-proc glyphGetExtents*(cache: ptr GlyphCacheT; n_glyphs: cint;
-                      glyphs: ptr GlyphT; extents: ptr Box32T) {.
-    importc: "pixman_glyph_get_extents", dynlib: "libpixman-1.so".}
-proc glyphGetMaskFormat*(cache: ptr GlyphCacheT; n_glyphs: cint;
-                         glyphs: ptr GlyphT): FormatCodeT {.
+proc getExtents*(cache: ptr GlyphCacheT; n_glyphs: cint; glyphs: ptr GlyphT;
+                 extents: ptr Box32T) {.importc: "pixman_glyph_get_extents",
+                                        dynlib: "libpixman-1.so".}
+proc getMaskFormat*(cache: ptr GlyphCacheT; n_glyphs: cint; glyphs: ptr GlyphT): FormatCodeT {.
     importc: "pixman_glyph_get_mask_format", dynlib: "libpixman-1.so".}
 proc compositeGlyphs*(op: OpT; src: ptr ImageT; dest: ptr ImageT;
                       mask_format: FormatCodeT; src_x: int32; src_y: int32;

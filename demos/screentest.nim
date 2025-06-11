@@ -19,12 +19,12 @@ proc filled(B: typedesc[BitMap]; value: uint32): B =
       result[h][w] = value
 
 proc createImage(src: BitMap, format: FormatCodeT): ptr ImageT =
-  imageCreateBits(format, src.S.w.cint, src.S.h.cint, addr src[0][0], cint sizeof(src[0]))
+  createBits(format, src.S.w.cint, src.S.h.cint, addr src[0][0], cint sizeof(src[0]))
 
 proc screen(src, mask, dest: ptr ImageT;
             src_p, mask_p, dest_p: Point;
             size: Size) =
-  imageComposite(opScreen,
+  composite(opScreen,
     src, mask, dest,
     src_p.x, src_p.y,
     mask_p.x, mask_p.y,

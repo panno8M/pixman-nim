@@ -1,4 +1,4 @@
-import std/[strutils, sequtils]
+import std/[strutils, sequtils, pegs]
 import shellsophia/[shell, commands/c2nim]
 import astutils
 import "$nim"/compiler/[renderer, parser, idents, options]
@@ -26,6 +26,11 @@ proc camel(snake: string; capitalize = false): string =
     of 'A'..'Z': result[i] = snake[i].toLowerAscii
     else: discard
   result = result.replace("_", "")
+
+proc replaceAll(str: string; targets: openArray[(Peg, string)]): string =
+  result = str
+  for target in targets:
+    result = result.replace(target[0], target[1])
 
 template expect(ast: PNode; kinds: set[TNodeKind]): untyped =
   if ast.kind notin kinds:
@@ -139,8 +144,24 @@ const typesToCapitalize = [
   "pixman_trap",
 ]
 
+const rawPegsToReplace = {
+  "pixman_transform_!(t$)!(from_pixman_f_transform$)": "",
+  "pixman_f_transform_!(t$)!(from_pixman_transform$)": "",
+  "pixman_region32_!(t$)!(data$)!(data_t)": "",
+  "pixman_region64_!(t$)!(data$)!(data_t)": "",
+  "pixman_region64f_!(t$)!(data$)!(data_t)": "",
+  "pixman_region_!(overlap_t$)": "",
+  "pixman_glyph_cache_create": "create_glyph_cache",
+  "pixman_glyph_cache_!(t$)": "",
+  "pixman_glyph_!(cache.*)!(t$)": "",
+  "pixman_format_!(code_t$)": "",
+  "pixman_image_!(t$)!(destroy_func_t$)": "",
+  "^ref$": "`ref`",
+}
+
 
 proc postprocess(ast: PNode): Pnode =
+  let pegsToReplace = rawPegsToReplace.mapIt((it[0].parsePeg(), it[1]))
   result = newNode(nkStmtList)
   result.add parseString("include includes/templates", newIdentCache(), newConfigRef())
   ast.margeSection(nkTypeSection)
@@ -211,7 +232,9 @@ proc postprocess(ast: PNode): Pnode =
     case ast.kind
     of nkIdent:
       if ast.ident.s.startsWith"pixman_" or ast.ident.s.startsWith"PIXMAN_":
-        ast.ident.s = ast.ident.s["pixman_".len..^1]
+        ast.ident.s = ast.ident.s
+          .replaceAll(pegsToReplace)
+          .multiReplace(("pixman_", ""), ("PIXMAN_", ""))
           .camel(ast.ident.s in typesToCapitalize)
       ast
     else:
