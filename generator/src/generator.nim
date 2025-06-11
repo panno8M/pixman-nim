@@ -1,7 +1,7 @@
 import std/[strutils, sequtils, pegs]
 import shellsophia/[shell, commands/c2nim]
 import astutils
-import "$nim"/compiler/[renderer, parser, idents, options]
+import "$nim"/compiler/[renderer, idents, options]
 
 proc remove(content: var string; ranges: varargs[HSlice[string, string]]) =
   for range in ranges:
@@ -163,7 +163,6 @@ const rawPegsToReplace = {
 proc postprocess(ast: PNode): Pnode =
   let pegsToReplace = rawPegsToReplace.mapIt((it[0].parsePeg(), it[1]))
   result = newNode(nkStmtList)
-  result.add parseString("include includes/templates", newIdentCache(), newConfigRef())
   ast.margeSection(nkTypeSection)
   ast.margeSection(nkConstSection)
   var i: int
@@ -243,7 +242,7 @@ proc postprocess(ast: PNode): Pnode =
 discard cd"."
   .c2nim(C2NimArgs(
     `in`: @["pixman.c", "pixman.c2nim", "../pixman/pixman/pixman.h"],
-    `out`: "../src/pixman.nim",
+    `out`: "../src/pixman/includes/pixman_core.nim",
     preprocess: preprocess,
     postprocess: postprocess,
     dynlib: "libpixman-1.so",
